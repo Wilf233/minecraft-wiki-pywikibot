@@ -117,8 +117,11 @@ def main():
     wikitable += f'! {i18n.rank} !! {i18n.username} !! {i18n.editcount}\n'
     for rank, user, count in ranked_results:
         ws.append([rank, user, count])
-        if count >= int(i18n.minimumeditcount) and not is_ip_address(user):
-            wikitable += f"|-\n| {rank} || [[User:{user}|]] || {count}\n"
+        if count >= int(i18n.minimumeditcount) and not is_ip_address(user) and not user.startswith("~20"):
+            if "wiki.vg>" in user:
+                wikitable += f"|-\n| {rank} || {user} || {count}\n"
+            else:
+                wikitable += f"|-\n| {rank} || [[User:{user}|]] || {count}\n"
     wb.save(os.path.join(output_dir, f"{LANGUAGE}minecraftwiki-editcount-ranking-{timestamp}.xlsx"))
     wikitable += "|}"
     with open(os.path.join(output_dir, f"{LANGUAGE}minecraftwiki-editcount-ranking-{timestamp}.txt"), "w", encoding="utf-8") as f:
