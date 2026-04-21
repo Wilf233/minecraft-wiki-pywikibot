@@ -68,7 +68,7 @@ def main():
         page_title = 'User:Wilf233/Global Editcount Ranking/data'
         page = pywikibot.Page(site, page_title)
         page.text = wikitable_text
-        page.save("Bot: Update data")
+        page.save(summary="Bot: Update data")
     except Exception as e:
         print(get_time() + e)
 
