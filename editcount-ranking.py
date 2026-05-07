@@ -130,6 +130,9 @@ def main():
 
     try:
         page = pywikibot.Page(site, i18n.pagetitle)
+        if ranked_results == []:
+            write_log(f"{get_time()} {__file__}终止运行，数据为空\n")
+            exit()
         page.text = wikitable
         page.save(i18n.editsummary)
     except Exception as e:
