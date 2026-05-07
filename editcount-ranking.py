@@ -118,7 +118,7 @@ def main():
     for rank, user, count in ranked_results:
         ws.append([rank, user, count])
         if count >= int(i18n.minimumeditcount) and not is_ip_address(user) and not user.startswith("~20"):
-            if "wiki.vg>" in user:
+            if ">" in user:
                 wikitable += f"|-\n| {rank} || {user} || {count}\n"
             else:
                 wikitable += f"|-\n| {rank} || [[User:{user}|]] || {count}\n"
