@@ -37,7 +37,7 @@ I18N_DATA = {
     },
     "lzh": {
         "prefix": "",
-        "suffix": "+ 文",
+        "suffix": "餘文",
     },
     "nl": {
         "prefix": "",
