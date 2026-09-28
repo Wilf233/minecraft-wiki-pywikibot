@@ -23,6 +23,10 @@ I18N_DATA = {
         "prefix": "",
         "suffix": "+ articles",
     },
+    "he": {
+        "prefix": "",
+        "suffix": "+ מאמרים",
+    },
     "it": {
         "prefix": "",
         "suffix": "+ articoli",
@@ -106,7 +110,10 @@ def get_article_number(lang):
     return stats.get('articles')
 
 def format_number(num, lang):
-    num = num // 100 * 100
+    if num > 1000:
+        num = num // 100 * 100
+    elif num > 100:
+        num = num // 10 * 10
     num = f"{num:,}"
     lang = lang.lower().split("-")[0]
     if lang in {"de"}:
@@ -156,8 +163,10 @@ def main():
 
 <div class="lang-btns">\n'''
     for _, row in df.iterrows():
-        text += f'<div class="lang-btn">[[{row["Lang"].split("-")[0]}:{row["MainPageName"]}|<div>\'\'\'{row["LanguageName"]}\'\'\'<br><span>{row["Prefix"]}{format_number(row["ArticleNumber"], row["Lang"])}{row["Suffix"]}</span></div>]]</div>\n'
-
+        text += f'<div class="lang-btn" lang="{row["Lang"].split("-")[0]}"'
+        if row["Lang"] == "he":
+            text += ' dir="rtl"'
+        text += f'>[[{row["Lang"].split("-")[0]}:{row["MainPageName"]}|<div>\'\'\'{row["LanguageName"]}\'\'\'<br><span>{row["Prefix"]}{format_number(row["ArticleNumber"], row["Lang"])}{row["Suffix"]}</span></div>]]</div>\n'
     text += '''<div class="lang-btn">[[Main Page|<div>\'\'\'Meta Wiki\'\'\'<br><span>{{NUMBEROFARTICLES}} articles</span></div>]]</div>
 </div>
 

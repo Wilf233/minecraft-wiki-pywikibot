@@ -9,10 +9,10 @@ I18N_DATA = {
         "pagetitle": "Minecraft Wiki:Sandbox",
         "defaulttext": '''{{Sandbox heading}}
 <!--
-*               Welcome to the sandbox!              *
-*            Please leave this part alone            *
-*           The page is cleared regularly            *
-*     Feel free to try your editing skills below     *
+*			   Welcome to the sandbox!				*
+*			Please leave this part alone			*
+*		   The page is cleared regularly			*
+*	 Feel free to try your editing skills below		*
 -->''',
     },
     "lzh": {
