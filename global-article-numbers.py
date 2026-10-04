@@ -146,7 +146,7 @@ def main():
         data_site = pywikibot.Site(lang, "mcw")
         data.append({
             'Lang': lang,
-            'MainPageName': data_site.mediawiki_message('mainpage'),
+            'MainPageName': data_site.siteinfo.get("mainpage"),
             'LanguageName': capitalize_first_char(language_code_to_name(lang)),
             'ArticleNumber': get_article_number(lang),
             'Prefix': i18n.prefix,
@@ -157,19 +157,24 @@ def main():
 
     df = pd.DataFrame(data)
     df = df.sort_values(by='ArticleNumber', ascending=False).reset_index(drop=True)
+    language_df = df[df["Lang"] != "hsw"]
+    hsw_df = df[df["Lang"] == "hsw"]
     text = '''<templatestyles src=":Languages/styles.css" /><div id="lang-select">
-
-[[File:Wiki@2x textless.png|x240px|link=]][[File:Minecraft_Wiki_default_header.svg|x160px|link=]]
-
+[[File:Minecraft_Wiki_default_header.svg|x160px|link=]]
 <div class="lang-btns">\n'''
-    for _, row in df.iterrows():
+    for _, row in language_df.iterrows():
         text += f'<div class="lang-btn" lang="{row["Lang"].split("-")[0]}"'
         if row["Lang"] == "he":
             text += ' dir="rtl"'
         text += f'>[[{row["Lang"].split("-")[0]}:{row["MainPageName"]}|<div>\'\'\'{row["LanguageName"]}\'\'\'<br><span>{row["Prefix"]}{format_number(row["ArticleNumber"], row["Lang"])}{row["Suffix"]}</span></div>]]</div>\n'
-    text += '''<div class="lang-btn">[[Main Page|<div>\'\'\'Meta Wiki\'\'\'<br><span>{{NUMBEROFARTICLES}} articles</span></div>]]</div>
+    text += '''</div>
+<br><br><div style="font-size:1.3em; color: white"><span>\'\'\'Other:\'\'\'</span></div>
+<div class="lang-btns">
+<div class="lang-btn">[[Main Page|<div>\'\'\'Meta Wiki\'\'\'<br><span>{{NUMBEROFARTICLES}} articles</span></div>]]</div>'''
+    for _, hsw_row in hsw_df.iterrows():
+        text += f'''
+<div class="lang-btn">[[hsw:{hsw_row["MainPageName"]}|<div>\'\'\'{hsw_row["MainPageName"]}\'\'\'<br><span>{hsw_row["Prefix"]}{format_number(hsw_row["ArticleNumber"], hsw_row["Lang"])}{hsw_row["Suffix"]}</span></div>]]</div>
 </div>
-
 </div>
 
 [[Category:Community]]'''
